@@ -1,4 +1,20 @@
 steps:
+- id: 'build'
+  name: "gcr.io/cloud-builders/docker"
+  args:
+      [
+        "build",
+        "-t",
+        "$_REGISTRY_URL/$PROJECT_ID/$_REGISTRY/helloworld:$SHORT_SHA",
+        "-t",
+        "$_REGISTRY_URL/$PROJECT_ID/$_REGISTRY/helloworld:latest",
+        "-f",
+        "cloudrun/helloworld/Dockerfile",
+        "."
+      ]
+  env:
+  - 'REGISTRY_URL=${_REGISTRY_URL}'
+  - 'REGISTRY=${_REGISTRY}'
 - id: 'tf'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
@@ -9,3 +25,8 @@ steps:
         terraform init
         terraform plan
         terraform apply -auto-approve
+substitutions:  
+  _REGISTRY_URL: us-central1-docker.pkg.dev
+  _REGISTRY: cloud-services-repository
+options:
+  substitution_option: 'ALLOW_LOOSE'
