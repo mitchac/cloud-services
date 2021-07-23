@@ -15,6 +15,12 @@ steps:
   env:
   - 'REGISTRY_URL=${_REGISTRY_URL}'
   - 'REGISTRY=${_REGISTRY}'
+- id: 'push' 
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "$_REGISTRY_URL/$PROJECT_ID/$_REGISTRY/helloworld"]
+  env:
+  - 'REGISTRY_URL=${_REGISTRY_URL}'
+  - 'REGISTRY=${_REGISTRY}'
 - id: 'tf'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
