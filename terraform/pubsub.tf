@@ -17,12 +17,3 @@ resource "google_pubsub_subscription" "helloworld" {
     }
   }
 }
-
-resource "google_pubsub_topic_iam_binding" "helloworld" {
-  project = var.project
-  topic = google_pubsub_topic.helloworld.name
-  role = "roles/pubsub.publisher"
-  members = [
-    "serviceAccount:helloworld@maximal-dynamo-308105.iam.gserviceaccount.com",
-  ]
-}

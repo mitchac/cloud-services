@@ -15,3 +15,12 @@ resource "google_cloud_run_service" "default" {
     latest_revision = true
   }
 }
+
+#resource "google_cloud_run_service_iam_binding" "binding" {
+#  location = google_cloud_run_service.cloudrun-srv.location
+#  project = google_cloud_run_service.cloudrun-srv.project
+#  service = google_cloud_run_service.cloudrun-srv.name
+#  role = "roles/run.invoker"
+#  members  = concat(var.members, ["serviceAccount:${google_service_account.pubsub.email}"])
+#}
+

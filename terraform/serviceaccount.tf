@@ -1,4 +1,9 @@
-resource "google_service_account" "helloworld" {
-  account_id   = "helloworld"
+resource "google_service_account" "cloud_run-sa" {
+  account_id   = var.cloudrun_service_account_name
+  project = var.runtime_project
+}
+
+resource "google_service_account" "pubsub-sa" {
+  account_id   = var.pubsub_service_account_name
   project = var.project
 }
