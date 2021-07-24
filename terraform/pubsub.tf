@@ -11,6 +11,9 @@ resource "google_pubsub_subscription" "helloworld" {
 
   push_config {
     push_endpoint = "https://cloudrun-srv-kvsfql577a-uc.a.run.app"
+    oidc_token {
+      service_account_email = google_service_account.pubsub-sa.email
+    }
 
     attributes = {
       x-goog-version = "v1"
