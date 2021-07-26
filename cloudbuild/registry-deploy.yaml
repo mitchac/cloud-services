@@ -1,5 +1,5 @@
 steps:
-- id: 'registry'
+- id: 'repository'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
   args:
@@ -11,7 +11,7 @@ steps:
         terraform init
         terraform apply -auto-approve
   env:
-  - 'TF_VAR_registry=${_REGISTRY}'
+  - 'TF_VAR_repository=${_REPOSITORY}'
   - 'TF_VAR_region=${_REGION}'
 - id: 'build'
   name: "gcr.io/cloud-builders/docker"
@@ -19,24 +19,24 @@ steps:
       [
         "build",
         "-t",
-        "$_REGION-$_REGISTRY_BASE_URL/$PROJECT_ID/$_REGISTRY/helloworld:$SHORT_SHA",
+        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
         "-t",
-        "$_REGION-$_REGISTRY_BASE_URL/$PROJECT_ID/$_REGISTRY/helloworld:latest",
+        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
         "-f",
         "cloudrun/helloworld/Dockerfile",
         "."
       ]
   env:
   - 'REGION=${_REGION}'
-  - 'REGISTRY_BASE_URL=${_REGISTRY_BASE_URL}' 
-  - 'REGISTRY=${_REGISTRY}'
+  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+  - 'REPOSITORY=${_REPOSITORY}'
 - id: 'push' 
   name: "gcr.io/cloud-builders/docker"
-  args: ["push", "$_REGION-$_REGISTRY_BASE_URL/$PROJECT_ID/$_REGISTRY/helloworld"]
+  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
   env:
   - 'REGION=${_REGION}'
-  - 'REGISTRY_BASE_URL=${_REGISTRY_BASE_URL}' 
-  - 'REGISTRY=${_REGISTRY}'
+  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+  - 'REPOSITORY=${_REPOSITORY}'
 - id: 'tf'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
@@ -49,8 +49,8 @@ steps:
         terraform init
         terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
 substitutions:  
-  _REGISTRY_BASE_URL: docker.pkg.dev
-  _REGISTRY: cloud-services-repository
+  _REPOSITORY_BASE_URL: docker.pkg.dev
+  _REPOSITORY: helloworld
   _REGION: us-central1
 options:
   substitution_option: 'ALLOW_LOOSE'
