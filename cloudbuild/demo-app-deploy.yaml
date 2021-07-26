@@ -9,35 +9,35 @@ steps:
         terraform init
         terraform workspace select prebuild || terraform workspace new prebuild
         terraform init
-        #terraform apply -auto-approve
-        terraform destroy -auto-approve
+        terraform apply -auto-approve
+        #terraform destroy -auto-approve
   env:
   - 'TF_VAR_repository=${_REPOSITORY}'
   - 'TF_VAR_region=${_REGION}'
-#- id: 'cloud run image build'
-#  name: "gcr.io/cloud-builders/docker"
-#  args:
-#      [
-#        "build",
-#        "-t",
-#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
-#        "-t",
-#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
-#        "-f",
-#        "cloudrun/helloworld/Dockerfile",
-#        "."
-#      ]
-#  env:
-#  - 'REGION=${_REGION}'
-#  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
-#  - 'REPOSITORY=${_REPOSITORY}'
-#- id: 'cloud run image deploy' 
-#  name: "gcr.io/cloud-builders/docker"
-#  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
-#  env:
-#  - 'REGION=${_REGION}'
-#  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
-#  - 'REPOSITORY=${_REPOSITORY}'
+- id: 'cloud run image build'
+  name: "gcr.io/cloud-builders/docker"
+  args:
+      [
+        "build",
+        "-t",
+        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
+        "-t",
+        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
+        "-f",
+        "cloudrun/helloworld/Dockerfile",
+        "."
+      ]
+  env:
+  - 'REGION=${_REGION}'
+  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+  - 'REPOSITORY=${_REPOSITORY}'
+- id: 'cloud run image deploy' 
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
+  env:
+  - 'REGION=${_REGION}'
+  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+  - 'REPOSITORY=${_REPOSITORY}'
 - id: 'app deploy'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
@@ -48,8 +48,8 @@ steps:
         terraform init
         terraform workspace select postbuild || terraform workspace new postbuild 
         terraform init
-        #terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
-        terraform destroy -auto-approve
+        terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
+        #terraform destroy -auto-approve
 substitutions:  
   _REPOSITORY_BASE_URL: docker.pkg.dev
   _REPOSITORY: helloworld
