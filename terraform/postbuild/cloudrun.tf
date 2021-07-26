@@ -5,7 +5,7 @@ resource "google_cloud_run_service" "cloudrun-srv" {
   template {
     spec {
       containers {
-        image = "us-central1-docker.pkg.dev/maximal-dynamo-308105/cloud-services-repository/helloworld"
+        image = "us-central1-docker.pkg.dev/maximal-dynamo-308105/helloworld/helloworld"
       }
     }
   }
