@@ -1,5 +1,5 @@
 resource "google_cloud_run_service" "cloudrun-srv" {
-  name     = var.cloudrun_service_account_name
+  name     = var.cloudrun_service_name
   location = var.region
 
   template {
