@@ -8,7 +8,8 @@ steps:
         cd terraform/prebuild      
         terraform workspace new prebuild
         terraform init
-        terraform plan
+        #terraform plan
+        terraform workspace select prebuild || terraform workspace new prebuild
         terraform apply -auto-approve
   env:
   - 'TF_VAR_registry=${_REGISTRY}'
@@ -44,9 +45,9 @@ steps:
   - '-c'
   - | 
         cd terraform/postbuild 
-        terraform workspace new postbuild
         terraform init
-        terraform plan
+        #terraform plan
+        terraform workspace select postbuild || terraform workspace new postbuild 
         terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
 substitutions:  
   _REGISTRY_BASE_URL: docker.pkg.dev
