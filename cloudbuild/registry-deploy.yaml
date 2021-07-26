@@ -6,6 +6,7 @@ steps:
   - '-c'
   - | 
         cd terraform/prebuild      
+        terraform workspace new prebuild
         terraform init
         terraform plan
         terraform apply -auto-approve
@@ -42,7 +43,8 @@ steps:
   args: 
   - '-c'
   - | 
-        cd terraform/postbuild      
+        cd terraform/postbuild 
+        terraform workspace new postbuild
         terraform init
         terraform plan
         terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
