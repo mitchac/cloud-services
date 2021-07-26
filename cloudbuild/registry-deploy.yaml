@@ -6,7 +6,6 @@ steps:
   - '-c'
   - | 
         cd terraform/prebuild      
-        terraform workspace new prebuild
         terraform init
         #terraform plan
         terraform workspace select prebuild || terraform workspace new prebuild
