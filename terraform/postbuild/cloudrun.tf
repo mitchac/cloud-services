@@ -14,6 +14,9 @@ resource "google_cloud_run_service" "cloudrun-srv" {
     percent         = 100
     latest_revision = true
   }
+  depends_on = [
+    google_project_service.cloudrun-gcp-service,    
+  ]
 }
 
 resource "google_cloud_run_service_iam_binding" "binding" {
@@ -22,5 +25,8 @@ resource "google_cloud_run_service_iam_binding" "binding" {
   service = google_cloud_run_service.cloudrun-srv.name
   role = "roles/run.invoker"
   members  = concat(var.members, ["serviceAccount:${google_service_account.helloworld-ps-sa.email}"])
+  depends_on = [
+    google_project_service.cloudrun-gcp-service,
+  ]
 }
 
