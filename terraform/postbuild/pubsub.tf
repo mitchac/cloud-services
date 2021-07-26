@@ -1,6 +1,9 @@
 resource "google_pubsub_topic" "helloworld" {
   name = var.pubsub_topic_name
   project = var.project
+  depends_on = [
+    google_project_service.pubsub-gcp-service,
+  ]
 }
 
 resource "google_pubsub_subscription" "helloworld" {
@@ -19,4 +22,7 @@ resource "google_pubsub_subscription" "helloworld" {
       x-goog-version = "v1"
     }
   }
+  depends_on = [
+    google_project_service.pubsub-gcp-service,
+  ]
 }
