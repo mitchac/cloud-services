@@ -36,16 +36,16 @@ steps:
   - 'REGION=${_REGION}'
   - 'REGISTRY_BASE_URL=${_REGISTRY_BASE_URL}' 
   - 'REGISTRY=${_REGISTRY}'
-#- id: 'tf'
-#  name: 'hashicorp/terraform:1.0.0'
-#  entrypoint: 'sh'
-#  args: 
-#  - '-c'
-#  - | 
-#        cd terraform/postbuild      
-#        terraform init
-#        terraform plan
-#        terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
+- id: 'tf'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - | 
+        cd terraform/postbuild      
+        terraform init
+        terraform plan
+        terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
 substitutions:  
   _REGISTRY_BASE_URL: docker.pkg.dev
   _REGISTRY: cloud-services-repository
