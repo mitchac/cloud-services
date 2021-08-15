@@ -16,6 +16,7 @@
 # [START run_pubsub_server_setup]
 import base64
 import os
+from google.cloud import storage
 
 from flask import Flask, request
 
@@ -23,6 +24,18 @@ from flask import Flask, request
 app = Flask(__name__)
 # [END run_pubsub_server_setup]
 # [END cloudrun_pubsub_server_setup]
+
+def list_blobs(bucket_name):
+    """Lists all the blobs in the bucket."""
+    # bucket_name = "your-bucket-name"
+
+    storage_client = storage.Client()
+
+    # Note: Client.list_blobs requires at least package version 1.17.0.
+    blobs = storage_client.list_blobs(bucket_name)
+
+    for blob in blobs:
+        print(blob.name)
 
 
 # [START cloudrun_pubsub_handler]
@@ -47,6 +60,7 @@ def index():
         name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
 
     print(f"Hello {name}!")
+    list_blobs("maximal-dynamo-308105-lifesciences-test")
 
     return ("", 204)
 
