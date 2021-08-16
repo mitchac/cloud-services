@@ -10,6 +10,9 @@ variable "pubsub_topic_name" {
 variable "pubsub_service_account_name" {
   default = "helloworld-ps-sa"
 }
+variable "cloudrun_service_account_name" {
+  default = "helloworld-cr-sa"
+}
 variable "cloudrun_service_name" {
   default = "helloworld-cr"
 }
