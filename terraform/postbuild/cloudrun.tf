@@ -7,7 +7,7 @@ resource "google_cloud_run_service" "cloudrun-srv" {
       containers {
         image = "us-central1-docker.pkg.dev/maximal-dynamo-308105/helloworld/helloworld"
       }
-      service_account_name = "${google_service_account.helloworld-ps-sa.email}"
+      service_account_name = "${google_service_account.helloworld-cr-sa.email}"
     }
   }
 
