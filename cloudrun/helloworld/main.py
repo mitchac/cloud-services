@@ -60,7 +60,8 @@ def index():
         name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
 
     print(f"Hello {name}!")
-    list_blobs("maximal-dynamo-308105-lifesciences-test")
+    #list_blobs("maximal-dynamo-308105-lifesciences-test")
+    os.system("gcloud beta lifesciences operations list")
 
     return ("", 204)
 
