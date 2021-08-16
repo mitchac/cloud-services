@@ -1,74 +1,33 @@
-# Copyright 2019 Google, LLC.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# [START cloudrun_pubsub_server_setup]
-# [START run_pubsub_server_setup]
-import base64
-import os
-from google.cloud import storage
+from googleapiclient import discovery
+from oauth2client.client import GoogleCredentials
 
 from flask import Flask, request
 
-
 app = Flask(__name__)
-# [END run_pubsub_server_setup]
-# [END cloudrun_pubsub_server_setup]
 
-def list_blobs(bucket_name):
-    """Lists all the blobs in the bucket."""
-    # bucket_name = "your-bucket-name"
-
-    storage_client = storage.Client()
-
-    # Note: Client.list_blobs requires at least package version 1.17.0.
-    blobs = storage_client.list_blobs(bucket_name)
-
-    for blob in blobs:
-        print(blob.name)
-
-
-# [START cloudrun_pubsub_handler]
-# [START run_pubsub_handler]
 @app.route("/", methods=["POST"])
 def index():
-    envelope = request.get_json()
-    if not envelope:
-        msg = "no Pub/Sub message received"
-        print(f"error: {msg}")
-        return f"Bad Request: {msg}", 400
+    from pprint import pprint
 
-    if not isinstance(envelope, dict) or "message" not in envelope:
-        msg = "invalid Pub/Sub message format"
-        print(f"error: {msg}")
-        return f"Bad Request: {msg}", 400
+    credentials = GoogleCredentials.get_application_default()
 
-    pubsub_message = envelope["message"]
+    service = discovery.build('lifesciences', 'v2beta', credentials=credentials)
 
-    name = "World"
-    if isinstance(pubsub_message, dict) and "data" in pubsub_message:
-        name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
+    # The name of the operation's parent resource.
+    name = 'projects/maximal-dynamo-308105/locations/us-central1'  # TODO: Update placeholder value.
 
-    print(f"Hello {name}!")
-    #list_blobs("maximal-dynamo-308105-lifesciences-test")
-    os.system("gcloud beta lifesciences operations list")
+    request = service.projects().locations().operations().list(name=name)
+    while True:
+        response = request.execute()
+
+        for operation in response.get('operations', []):
+            pprint(operation)
+
+        request = service.projects().locations().operations().list_next(previous_request=request, previous_response=response)
+        if request is None:
+            break
 
     return ("", 204)
-
-
-# [END run_pubsub_handler]
-# [END cloudrun_pubsub_handler]
-
 
 if __name__ == "__main__":
     PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 8080
