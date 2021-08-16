@@ -21,7 +21,7 @@ def index():
         response = request.execute()
 
         for operation in response.get('operations', []):
-            pprint(operation)
+            pprint(operation['name'])
 
         request = service.projects().locations().operations().list_next(previous_request=request, previous_response=response)
         if request is None:
