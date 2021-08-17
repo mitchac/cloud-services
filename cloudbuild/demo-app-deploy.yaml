@@ -41,19 +41,10 @@ steps:
   entrypoint: 'sh'
   args:
   - '-c'
-  - >   
-        if [ $_INFRA_ACTION = 'deploy' ]; then
-        docker
-        build
-        -t
-        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA
-        -t
-        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest
-        -f
-        cloudrun/lifesciences-api-test/Dockerfile
-        .
+  - |   
+        if [ $_INFRA_ACTION = 'deploy' ]; then 
+        docker build -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest -f cloudrun/lifesciences-api-test/Dockerfile . 
         fi
-  
   env:
   - 'REGION=${_REGION}'
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
