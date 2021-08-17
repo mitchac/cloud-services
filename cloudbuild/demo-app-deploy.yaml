@@ -49,13 +49,13 @@ steps:
 #  - 'REGION=${_REGION}'
 #  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
 #  - 'REPOSITORY=${_REPOSITORY}'
-- id: 'cloud run image deploy' 
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
-  env:
-  - 'REGION=${_REGION}'
-  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
-  - 'REPOSITORY=${_REPOSITORY}'
+#- id: 'cloud run image deploy' 
+#  name: "gcr.io/cloud-builders/docker"
+#  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
+#  env:
+#  - 'REGION=${_REGION}'
+#  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+#  - 'REPOSITORY=${_REPOSITORY}'
 - id: 'app deploy'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
