@@ -36,14 +36,11 @@ steps:
   entrypoint: 'sh'
   args:
   - '-c'
-  - > 
-        build
-        -t
-        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA
-        -t
-        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest
-        -f
-        cloudrun/lifesciences-api-test/Dockerfile
+  - | 
+        build \
+        -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA \
+        -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest \
+        -f cloudrun/lifesciences-api-test/Dockerfile \
         .
   env:
   - 'REGION=${_REGION}'
