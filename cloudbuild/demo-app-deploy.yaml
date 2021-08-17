@@ -18,23 +18,42 @@ steps:
   - 'TF_VAR_repository=${_REPOSITORY}'
   - 'TF_VAR_region=${_REGION}'
   - 'TF_VAR_infra_action=${_INFRA_ACTION}'
+
 - id: 'cloud run image build'
   name: "gcr.io/cloud-builders/docker"
-  entrypoint: 'bash'
+  
+#  entrypoint: 'bash'
+#  args:
+#      [
+#        "if [ $_INFRA_ACTION = 'deploy' ]; then",
+#        "docker",
+#        "build",
+#        "-t",
+#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
+#        "-t",
+#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
+#        "-f",
+#        "cloudrun/lifesciences-api-test/Dockerfile",
+#        ".",
+#        "fi"
+#      ]
+  
+  entrypoint: 'sh'
   args:
-      [
-        "if [ $_INFRA_ACTION = 'deploy' ]; then",
-        "docker",
-        "build",
-        "-t",
-        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
-        "-t",
-        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
-        "-f",
-        "cloudrun/lifesciences-api-test/Dockerfile",
-        ".",
-        "fi"
-      ]
+  - '-c'
+  - >   
+        if [ $_INFRA_ACTION = 'deploy' ]; then
+        docker
+        build
+        -t
+        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA
+        -t
+        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest
+        -f
+        cloudrun/lifesciences-api-test/Dockerfile
+        .
+        fi
+  
   env:
   - 'REGION=${_REGION}'
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
