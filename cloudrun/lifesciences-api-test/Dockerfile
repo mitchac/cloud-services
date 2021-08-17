@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED True
 
 # Copy application dependency manifests to the container image.
 # Copying this separately prevents re-running pip install on every code change.
-COPY cloudrun/helloworld/requirements.txt ./
+COPY cloudrun/lifesciences-api-test/requirements.txt ./
 
 # Install production dependencies.
 RUN pip install -r requirements.txt
@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY cloudrun/helloworld/ ./
+COPY cloudrun/lifesciences-api-test/ ./
 
 # Run the web service on container startup.
 # Use gunicorn webserver with one worker process and 8 threads.
