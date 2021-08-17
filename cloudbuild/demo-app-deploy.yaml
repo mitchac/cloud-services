@@ -43,15 +43,12 @@ steps:
         if [ $_INFRA_ACTION = 'deploy' ]; then
         docker push $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld
         fi
-#      [
-#        "push",
-#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"
-#      ]
   env:
   - 'REGION=${_REGION}'
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
   - 'REPOSITORY=${_REPOSITORY}'
   - 'INFRA_ACTION=${_INFRA_ACTION}'
+
 - id: 'app deploy'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
@@ -73,7 +70,7 @@ substitutions:
   _REPOSITORY_BASE_URL: docker.pkg.dev
   _REPOSITORY: helloworld
   _REGION: us-central1
-  _INFRA_ACTION: deploy
+  _INFRA_ACTION: rem
   _SERVICE: lifesciences-test
 options:
   substitution_option: 'ALLOW_LOOSE'
