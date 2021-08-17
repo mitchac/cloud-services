@@ -25,9 +25,9 @@ steps:
   - | 
         build
         -t
-        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA"
+        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA
         -t
-        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest"
+        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest
         -f
         cloudrun/lifesciences-api-test/Dockerfile
         .
