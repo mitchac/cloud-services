@@ -20,9 +20,11 @@ steps:
   - 'TF_VAR_infra_action=${_INFRA_ACTION}'
 - id: 'cloud run image build'
   name: "gcr.io/cloud-builders/docker"
+  entrypoint: 'bash'
   args:
       [
         "if [ $_INFRA_ACTION = 'deploy' ]; then",
+        "docker",
         "build",
         "-t",
         "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
