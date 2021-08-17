@@ -33,6 +33,7 @@ steps:
 #        "."
 #      ]
   
+  entrypoint: 'docker'
   args:
   - '-c'
   - | 
