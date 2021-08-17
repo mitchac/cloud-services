@@ -36,6 +36,7 @@ steps:
     
 - id: 'cloud run image deploy' 
   name: "gcr.io/cloud-builders/docker"
+  entrypoint: 'sh'
   args: 
   - '-c'
   - |   
