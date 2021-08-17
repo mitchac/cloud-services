@@ -21,23 +21,6 @@ steps:
 
 - id: 'cloud run image build'
   name: "gcr.io/cloud-builders/docker"
-  
-#  entrypoint: 'bash'
-#  args:
-#      [
-#        "if [ $_INFRA_ACTION = 'deploy' ]; then",
-#        "docker",
-#        "build",
-#        "-t",
-#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
-#        "-t",
-#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
-#        "-f",
-#        "cloudrun/lifesciences-api-test/Dockerfile",
-#        ".",
-#        "fi"
-#      ]
-  
   entrypoint: 'sh'
   args:
   - '-c'
@@ -50,13 +33,19 @@ steps:
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
   - 'REPOSITORY=${_REPOSITORY}'
   - 'INFRA_ACTION=${_INFRA_ACTION}'
+    
 - id: 'cloud run image deploy' 
   name: "gcr.io/cloud-builders/docker"
   args: 
-      [
-        "push",
-        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"
-      ]
+  - '-c'
+  - |   
+        if [ $_INFRA_ACTION = 'deploy' ]; then
+        docker push $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld
+        fi
+#      [
+#        "push",
+#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"
+#      ]
   env:
   - 'REGION=${_REGION}'
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
@@ -83,7 +72,7 @@ substitutions:
   _REPOSITORY_BASE_URL: docker.pkg.dev
   _REPOSITORY: helloworld
   _REGION: us-central1
-  _INFRA_ACTION: deploy
+  _INFRA_ACTION: remove
   _SERVICE: lifesciences-test
 options:
   substitution_option: 'ALLOW_LOOSE'
