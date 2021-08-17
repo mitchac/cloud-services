@@ -9,7 +9,7 @@ steps:
         terraform init
         terraform workspace select prebuild || terraform workspace new prebuild
         terraform init
-        if [ $TF_VAR_infra_action = 'deploy' ]; then
+        if [ $_INFRA_ACTION = 'deploy' ]; then
             terraform apply -auto-approve
         else
             terraform destroy -auto-approve
