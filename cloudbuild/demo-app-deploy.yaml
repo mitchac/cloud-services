@@ -33,7 +33,6 @@ steps:
 #        "."
 #      ]
   
-  entrypoint: 'sh'
   args:
   - '-c'
   - | 
