@@ -18,44 +18,44 @@ steps:
   - 'TF_VAR_repository=${_REPOSITORY}'
   - 'TF_VAR_region=${_REGION}'
   - 'TF_VAR_infra_action=${_INFRA_ACTION}'
-#- id: 'cloud run image build'
-#  name: "gcr.io/cloud-builders/docker"
-#
-##  args:
-##      [
-##        "build",
-##        "-t",
-##        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
-##        "-t",
-##        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
-##        "-f",
-##        "cloudrun/lifesciences-api-test/Dockerfile",
-##        "."
-##      ]
-#  
-#  entrypoint: 'sh'
+- id: 'cloud run image build'
+  name: "gcr.io/cloud-builders/docker"
+
 #  args:
-#  - '-c'
-#  - | 
-#        build
-#        -t
-#        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA
-#        -t
-#        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest
-#        -f
-#        cloudrun/lifesciences-api-test/Dockerfile
-#        .
-#  env:
-#  - 'REGION=${_REGION}'
-#  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
-#  - 'REPOSITORY=${_REPOSITORY}'
-#- id: 'cloud run image deploy' 
-#  name: "gcr.io/cloud-builders/docker"
-#  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
-#  env:
-#  - 'REGION=${_REGION}'
-#  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
-#  - 'REPOSITORY=${_REPOSITORY}'
+#      [
+#        "build",
+#        "-t",
+#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA",
+#        "-t",
+#        "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest",
+#        "-f",
+#        "cloudrun/lifesciences-api-test/Dockerfile",
+#        "."
+#      ]
+  
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - | 
+        build
+        -t
+        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA
+        -t
+        $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest
+        -f
+        cloudrun/lifesciences-api-test/Dockerfile
+        .
+  env:
+  - 'REGION=${_REGION}'
+  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+  - 'REPOSITORY=${_REPOSITORY}'
+- id: 'cloud run image deploy' 
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "$_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld"]
+  env:
+  - 'REGION=${_REGION}'
+  - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
+  - 'REPOSITORY=${_REPOSITORY}'
 - id: 'app deploy'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
@@ -77,7 +77,7 @@ substitutions:
   _REPOSITORY_BASE_URL: docker.pkg.dev
   _REPOSITORY: helloworld
   _REGION: us-central1
-  _INFRA_ACTION: remove
+  _INFRA_ACTION: deploy
   _SERVICE: lifesciences-test
 options:
   substitution_option: 'ALLOW_LOOSE'
