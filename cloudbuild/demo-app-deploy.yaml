@@ -70,7 +70,7 @@ substitutions:
   _REPOSITORY_BASE_URL: docker.pkg.dev
   _REPOSITORY: helloworld
   _REGION: us-central1
-  _INFRA_ACTION: deploy
+  _INFRA_ACTION: rem
   _SERVICE: lifesciences-test
 options:
   substitution_option: 'ALLOW_LOOSE'
