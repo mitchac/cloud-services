@@ -15,7 +15,7 @@ def index():
     parent = 'projects/maximal-dynamo-308105/locations/us-central1'
 
     with open(os.path.join(sys.path[0], "pipeline.json"), "r") as f:
-    run_pipeline_request_body = json.load(f)
+        run_pipeline_request_body = json.load(f)
 
     pprint(run_pipeline_request_body)
 
