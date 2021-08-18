@@ -15,3 +15,11 @@ resource "google_project_iam_binding" "helloworld-cr-sa" {
     "serviceAccount:${google_service_account.helloworld-cr-sa.email}"
   ]
 }
+
+resource "google_service_account_iam_binding" "wf-runner-account-iam" {
+  service_account_id = google_service_account.helloworld-cr-sa.name
+  role               = "roles/iam.serviceAccountUser"
+  members = [
+    "serviceAccount:terra-api@maximal-dynamo-308105.iam.gserviceaccount.com",
+  ]
+}
