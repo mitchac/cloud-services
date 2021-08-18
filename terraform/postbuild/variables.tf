@@ -13,6 +13,9 @@ variable "pubsub_service_account_name" {
 variable "cloudrun_service_account_name" {
   default = "helloworld-cr-sa"
 }
+variable "pipeline_service_account_name" {
+  default = "helloworld-pipe-sa"
+}
 variable "cloudrun_service_name" {
   default = "helloworld-cr"
 }

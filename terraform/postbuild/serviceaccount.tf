@@ -8,7 +8,7 @@ resource "google_service_account" "helloworld-cr-sa" {
 }
 
 resource "google_service_account" "helloworld-pipe-sa" {
-  account_id   = var.cloudrun_service_account_name
+  account_id   = var.pipeline_service_account_name
   project = var.project
 }
 
