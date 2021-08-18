@@ -7,8 +7,12 @@ resource "google_service_account" "helloworld-cr-sa" {
   project = var.project
 }
 
+resource "google_service_account" "helloworld-pipe-sa" {
+  account_id   = var.cloudrun_service_account_name
+  project = var.project
+}
 
-resource "google_project_iam_binding" "helloworld-cr-sa" {
+resource "google_project_iam_binding" "helloworld-cr-sa-bind" {
   project = "maximal-dynamo-308105"
   role    = "roles/lifesciences.workflowsRunner"
   members = [
@@ -16,10 +20,18 @@ resource "google_project_iam_binding" "helloworld-cr-sa" {
   ]
 }
 
-resource "google_service_account_iam_binding" "wf-runner-account-iam" {
-  service_account_id = google_service_account.helloworld-cr-sa.name
+resource "google_project_iam_binding" "helloworld-pipe-sa-bind" {
+  project = "maximal-dynamo-308105"
+  role    = "roles/Owner"
+  members = [
+    "serviceAccount:${google_service_account.helloworld-pipe-sa.email}"
+  ]
+}
+
+resource "google_service_account_iam_binding" "cr-sa-act-as-pipe-sa" {
+  service_account_id = google_service_account.helloworld-pipe-sa.name
   role               = "roles/iam.serviceAccountUser"
   members = [
-    "serviceAccount:terra-api@maximal-dynamo-308105.iam.gserviceaccount.com",
+    "serviceAccount:${google_service_account.helloworld-cr-sa.email}",
   ]
 }
