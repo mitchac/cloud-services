@@ -22,7 +22,7 @@ resource "google_project_iam_binding" "helloworld-cr-sa-bind" {
 
 resource "google_project_iam_binding" "helloworld-pipe-sa-bind" {
   project = "maximal-dynamo-308105"
-  role    = "roles/owner"
+  role    = "roles/editor"
   members = [
     "serviceAccount:${google_service_account.helloworld-pipe-sa.email}"
   ]
