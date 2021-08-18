@@ -1,5 +1,8 @@
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
+from pprint import pprint
+import os
+import json
 
 from flask import Flask, request
 
@@ -7,25 +10,24 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
 def index():
-    from pprint import pprint
-
     credentials = GoogleCredentials.get_application_default()
-
     service = discovery.build('lifesciences', 'v2beta', credentials=credentials)
+    parent = 'projects/maximal-dynamo-308105/locations/us-central1'
 
-    # The name of the operation's parent resource.
-    name = 'projects/maximal-dynamo-308105/locations/us-central1'  # TODO: Update placeholder value.
+    with open(os.path.join(sys.path[0], "pipeline.json"), "r") as f:
+    run_pipeline_request_body = json.load(f)
 
-    request = service.projects().locations().operations().list(name=name)
-    while True:
-        response = request.execute()
+    pprint(run_pipeline_request_body)
 
-        for operation in response.get('operations', []):
-            pprint(operation['name'])
+    #run_pipeline_request_body = {
+    # TODO: Add desired entries to the request body.
+    #}
 
-        request = service.projects().locations().operations().list_next(previous_request=request, previous_response=response)
-        if request is None:
-            break
+
+    #request = service.projects().locations().pipelines().run(parent=parent, body=run_pipeline_request_body)
+    #response = request.execute()
+
+    #pprint(response)
 
     return ("", 204)
 
