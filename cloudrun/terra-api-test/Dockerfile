@@ -17,6 +17,15 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY cloudrun/terra-api-test/ ./
 
+RUN apk add --update \
+ curl \
+ which \
+ bash
+
+ RUN curl -sSL https://sdk.cloud.google.com | bash
+
+ ENV PATH $PATH:/root/google-cloud-sdk/bin
+
 # Run the web service on container startup.
 # Use gunicorn webserver with one worker process and 8 threads.
 # For environments with multiple CPU cores, increase the number of workers
