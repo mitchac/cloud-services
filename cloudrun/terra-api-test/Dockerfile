@@ -22,9 +22,9 @@ RUN apk add --update \
  which \
  bash
 
- RUN curl -sSL https://sdk.cloud.google.com | bash
+RUN curl -sSL https://sdk.cloud.google.com | bash
 
- ENV PATH $PATH:/root/google-cloud-sdk/bin
+ENV PATH $PATH:/root/google-cloud-sdk/bin
 
 # Run the web service on container startup.
 # Use gunicorn webserver with one worker process and 8 threads.
