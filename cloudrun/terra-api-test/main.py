@@ -1,5 +1,6 @@
 import os
 import requests
+import subprocess
 from pprint import pprint
 
 from flask import Flask, request
@@ -15,9 +16,13 @@ def index():
     terra_api = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(terra_api)
 
-    token = os.popen('curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" > out.txt')
-    log = open("out.txt", "r")
-    print(str(log))
+    #token = os.popen('curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" > out.txt')
+    #log = open("out.txt", "r")
+    #print(str(log))
+
+    out = subprocess.run(['curl', '-s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google"'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+
+    print(out)
 
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token')
     
