@@ -15,14 +15,15 @@ def index():
     terra_api = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(terra_api)
 
-    token = os.popen('curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" | tac | tac')
-
+    token = os.popen('curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" > out.txt )
+    log = open("out.txt", "r")
+    print str(log)
 
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token')
     
     #workflow_config_response = terra_api.get_workflow_config("firstterrabillingaccount", "singlem-pilot-2", "singlem", "singlem-single-task")
 
-    print(token)
+    #print(token)
 
     return ("", 204)
 
