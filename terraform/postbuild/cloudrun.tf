@@ -5,7 +5,7 @@ resource "google_cloud_run_service" "cloudrun-srv" {
   template {
     spec {
       containers {
-        image = "us-central1-docker.pkg.dev/maximal-dynamo-308105/helloworld/helloworld"
+        image = "us-central1-docker.pkg.dev/maximal-dynamo-308105/${var.repository}/${var.service}"
       }
       service_account_name = "${google_service_account.helloworld-cr-sa.email}"
     }
