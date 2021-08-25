@@ -18,7 +18,7 @@ WORKDIR $APP_HOME
 COPY cloudrun/terra-api-test/ ./
 
 #RUN sudo apt-get update 
-RUN sudo apt-get install -y jq
+#RUN sudo apt-get install -y jq
 
 ## Downloading gcloud package
 #RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
