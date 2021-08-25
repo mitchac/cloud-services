@@ -15,7 +15,7 @@ def index():
     terra_api = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(terra_api)
 
-    token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token').json().get('access_token')
+    token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token')
     
     #workflow_config_response = terra_api.get_workflow_config("firstterrabillingaccount", "singlem-pilot-2", "singlem", "singlem-single-task")
 
