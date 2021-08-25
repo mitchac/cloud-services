@@ -39,6 +39,7 @@ def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace
     head = prepare_header()
 
     response = requests.get(myUrl, headers=head)
+    print('terra api request submitted')
     return response
 
 def set_workflow_config(workspaceNamespace, workspaceName, methodNamespace, methodName, methodVersion, methodConfigRootEntityType, methodConfigVersion):
