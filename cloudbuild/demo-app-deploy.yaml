@@ -62,7 +62,7 @@ steps:
         terraform init
         terraform workspace select postbuild || terraform workspace new postbuild 
         terraform init
-        if [ $_INFRA_ACTION = 'deploy222' ]; then
+        if [ $_INFRA_ACTION = 'deploy' ]; then
             terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
         else
             terraform destroy -auto-approve
