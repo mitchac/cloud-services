@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/", methods=["POST"])
 def index():
     
-    spec = importlib.util.spec_from_file_location("terra_api", "terra_api.py")
+    spec = importlib.util.spec_from_file_location("terra_api", "terra-api.py")
     terra_api = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(terra_api)
 
