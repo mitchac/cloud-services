@@ -18,6 +18,7 @@ steps:
   - 'TF_VAR_repository=${_REPOSITORY}'
   - 'TF_VAR_region=${_REGION}'
   - 'TF_VAR_infra_action=${_INFRA_ACTION}'
+  - 'TF_VAR_service=${_SERVICE}'
 
 - id: 'cloud run image build'
   name: "gcr.io/cloud-builders/docker"
@@ -26,13 +27,14 @@ steps:
   - '-c'
   - |   
         if [ $_INFRA_ACTION = 'deploy' ]; then 
-        docker build -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:$SHORT_SHA -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld:latest -f cloudrun/lifesciences-api-test/Dockerfile . 
+        docker build -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/$_SERVICE:$SHORT_SHA -t $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/$_SERVICE:latest -f cloudrun/lifesciences-api-test/Dockerfile . 
         fi
   env:
   - 'REGION=${_REGION}'
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
   - 'REPOSITORY=${_REPOSITORY}'
   - 'INFRA_ACTION=${_INFRA_ACTION}'
+  - 'SERVICE=${_SERVICE}'  
     
 - id: 'cloud run image deploy' 
   name: "gcr.io/cloud-builders/docker"
@@ -41,13 +43,14 @@ steps:
   - '-c'
   - |   
         if [ $_INFRA_ACTION = 'deploy' ]; then
-        docker push $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/helloworld
+        docker push $_REGION-$_REPOSITORY_BASE_URL/$PROJECT_ID/$_REPOSITORY/$_SERVICE
         fi
   env:
   - 'REGION=${_REGION}'
   - 'REPOSITORY_BASE_URL=${_REPOSITORY_BASE_URL}' 
   - 'REPOSITORY=${_REPOSITORY}'
   - 'INFRA_ACTION=${_INFRA_ACTION}'
+  - 'SERVICE=${_SERVICE}'
 
 - id: 'app deploy'
   name: 'hashicorp/terraform:1.0.0'
@@ -59,7 +62,7 @@ steps:
         terraform init
         terraform workspace select postbuild || terraform workspace new postbuild 
         terraform init
-        if [ $_INFRA_ACTION = 'deploy' ]; then
+        if [ $_INFRA_ACTION = 'deploy222' ]; then
             terraform apply -auto-approve -replace="google_cloud_run_service.cloudrun-srv"
         else
             terraform destroy -auto-approve
@@ -68,9 +71,9 @@ steps:
   - 'TF_VAR_infra_action=${_INFRA_ACTION}'
 substitutions:  
   _REPOSITORY_BASE_URL: docker.pkg.dev
-  _REPOSITORY: helloworld
+  _REPOSITORY: cloud-services
   _REGION: us-central1
-  _INFRA_ACTION: rem
+  _INFRA_ACTION: deploy
   _SERVICE: lifesciences-test
 options:
   substitution_option: 'ALLOW_LOOSE'

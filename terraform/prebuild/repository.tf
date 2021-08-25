@@ -1,4 +1,4 @@
-resource "google_artifact_registry_repository" "helloworld-ar" {
+resource "google_artifact_registry_repository" "${var.service}" {
     provider = google-beta
     location = var.region
     repository_id = var.repository

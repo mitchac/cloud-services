@@ -5,3 +5,6 @@ variable "project" {
 }
 variable "repository" {
 }
+
+variable "service" {
+}

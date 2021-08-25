@@ -5,7 +5,7 @@
 terraform {
   backend "gcs" {
     bucket = "maximal-dynamo-308105-tfstate"
-    prefix = "helloworld"
+    prefix = var.service
   }
 }
 
