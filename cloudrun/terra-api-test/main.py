@@ -15,9 +15,9 @@ def index():
     terra_api = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(terra_api)
 
-    token = os.popen('curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" > out.txt )
+    token = os.popen('curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" > out.txt')
     log = open("out.txt", "r")
-    print str(log)
+    print(str(log))
 
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token')
     
