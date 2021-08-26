@@ -42,7 +42,7 @@ def submit_workflow(workspaceNamespace, workspaceName, submissionEntityType, sub
 def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace, methodConfigName):
     
     myUrl = f'https://api.firecloud.org/api/workspaces/{workspaceNamespace}/{workspaceName}/method_configs/{methodConfigNamespace}/{methodConfigName}'
-
+    print(myUrl)
     head = prepare_header()
 
     response = requests.get(myUrl, headers=head)
