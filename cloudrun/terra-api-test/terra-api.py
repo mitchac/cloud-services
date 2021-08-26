@@ -9,7 +9,10 @@ def prepare_header():
     #token = os.popen('gcloud auth application-default login --quiet && gcloud auth --account=terra-api@maximal-dynamo-308105.iam.gserviceaccount.com print-access-token').read().rstrip()
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token').json().get('access_token')
     token = subprocess.run(['curl', '-s','http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token','-H','Metadata-Flavor: Google'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token)}
+    data = json.loads(token)
+    token_val = (data["access_token"])
+    print(token_val)
+    head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token_val)}
     print(head)
     return head
     
