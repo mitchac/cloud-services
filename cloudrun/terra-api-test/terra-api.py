@@ -5,7 +5,7 @@ import subprocess
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 def prepare_header():
-    #os.popen('gcloud auth login')
+    os.popen('gcloud auth list')
     #token = os.popen('gcloud auth application-default login --quiet && gcloud auth --account=terra-api@maximal-dynamo-308105.iam.gserviceaccount.com print-access-token').read().rstrip()
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token').json().get('access_token')
     token = subprocess.run(['curl', '-s','http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token','-H','Metadata-Flavor: Google'], stdout=subprocess.PIPE).stdout.decode('utf-8')
