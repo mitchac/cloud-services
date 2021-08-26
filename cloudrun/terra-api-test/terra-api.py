@@ -4,6 +4,22 @@ import json
 import subprocess
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
+def pretty_print_POST(req):
+    """
+    At this point it is completely built and ready
+    to be fired; it is "prepared".
+
+    However pay attention at the formatting used in 
+    this function because it is programmed to be pretty 
+    printed and may differ from the actual request.
+    """
+    print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+        '-----------START-----------',
+        req.method + ' ' + req.url,
+        '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
+        req.body,
+    ))
+
 def prepare_header():
     #os.popen('gcloud auth list')
     auth_out = subprocess.run(['gcloud','auth','list'], stdout=subprocess.PIPE).stdout.decode('utf-8')
@@ -45,7 +61,14 @@ def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace
     print(myUrl)
     head = prepare_header()
 
-    response = requests.get(myUrl, headers=head)
+    req = requests.Request('GET', myUrl, headers=head)
+    prepared = req.prepare()
+    pretty_print_POST(prepared)
+    s = requests.Session()
+    s.send(prepared)
+    print(s)
+
+    #response = requests.get(myUrl, headers=head)
     print('terra api request submitted')
     return response
 
