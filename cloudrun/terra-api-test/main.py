@@ -24,7 +24,9 @@ def index():
     
     workflow_config_response = terra_api.get_workflow_config("firstterrabillingaccount", "singlem-pilot-2", "singlem", "singlem-single-task")
 
-    print(workflow_config_response)
+    print(json.dumps(workflow_config_response.json(), indent=2))
+
+    #print(workflow_config_response)
 
     return ("", 204)
 
