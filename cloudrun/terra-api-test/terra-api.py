@@ -10,7 +10,7 @@ def prepare_header():
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token').json().get('access_token')
     token = subprocess.run(['curl', '-s','http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token','-H','Metadata-Flavor: Google'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     data = json.loads(token)
-    token_val = (data["access_token"])
+    token_val = strip(data["access_token"])
     print(token_val)
     head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token_val)}
     print(head)
