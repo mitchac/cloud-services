@@ -2,6 +2,7 @@ import os
 import requests
 import json
 import subprocess
+import google.auth
 from google.auth.transport import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
