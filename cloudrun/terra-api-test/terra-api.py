@@ -38,7 +38,7 @@ def prepare_header():
 
     def get_default_token():
         credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
-        credentials.refresh(grequests.Request())
+        credentials.refresh(google.auth.transport.requests.Request())
         return credentials.token
     token = get_default_token()
     
