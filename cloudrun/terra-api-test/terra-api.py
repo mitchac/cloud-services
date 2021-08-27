@@ -72,14 +72,14 @@ def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace
     print(myUrl)
     head = prepare_header()
 
-    req = requests.Request('GET', myUrl, header=head)
-    prepared = req.prepare()
-    pretty_print_POST(prepared)
-    s = requests.Session()
-    response = s.send(prepared)
-    print(response)
+#    req = requests.Request('GET', myUrl, header=head)
+#    prepared = req.prepare()
+#    pretty_print_POST(prepared)
+#    s = requests.Session()
+#    response = s.send(prepared)
+#    print(response)
 
-    #response = requests.get(myUrl, headers=head)
+    response = requests.get(myUrl, headers=head)
     print('terra api request submitted')
     return response
 
