@@ -3,7 +3,7 @@ import requests
 import json
 import subprocess
 import google.auth
-from google.auth.transport import requests
+from google.auth.transport import grequests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 def pretty_print_POST(req):
@@ -38,7 +38,7 @@ def prepare_header():
 
     def get_default_token():
         credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
-        credentials.refresh(requests.Request())
+        credentials.refresh(grequests.Request())
         return credentials.token
     token = get_default_token()
     
@@ -72,7 +72,7 @@ def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace
     print(myUrl)
     head = prepare_header()
 
-    req = requests.Request('GET', myUrl, headers=head)
+    req = requests.Request('GET', myUrl, header=head)
     prepared = req.prepare()
     pretty_print_POST(prepared)
     s = requests.Session()
