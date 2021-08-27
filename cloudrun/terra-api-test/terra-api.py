@@ -2,6 +2,8 @@ import os
 import requests
 import json
 import subprocess
+import google
+from google.auth.transport import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 def pretty_print_POST(req):
@@ -22,16 +24,25 @@ def pretty_print_POST(req):
 
 def prepare_header():
     #os.popen('gcloud auth list')
-    auth_out = subprocess.run(['gcloud','auth','list'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    print(auth_out)
+    #auth_out = subprocess.run(['gcloud','auth','list'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    #print(auth_out)
 
     #token = os.popen('gcloud auth application-default login --quiet && gcloud auth --account=terra-api@maximal-dynamo-308105.iam.gserviceaccount.com print-access-token').read().rstrip()
     #token = requests.get('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token').json().get('access_token')
-    token = subprocess.run(['curl', '-s','http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token','-H','Metadata-Flavor: Google'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    data = json.loads(token)
-    token_val = data["access_token"]
-    print(token_val)
-    head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token_val)}
+    #token = subprocess.run(['curl', '-s','http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token','-H','Metadata-Flavor: Google'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    #data = json.loads(token)
+    #token_val = data["access_token"]
+    #print(token_val)
+    
+    CREDENTIAL_SCOPES = ["https://www.googleapis.com/auth/cloud-platform"] 
+
+    def get_default_token():
+        credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
+        credentials.refresh(requests.Request())
+        return credentials.token
+    token = get_default_token()
+    
+    head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token)}
     print(head)
     return head
     
