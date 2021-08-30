@@ -37,20 +37,13 @@ def prepare_header():
 
     def get_creds():
         credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
-        credentials.refresh(requests.Request())
+        credentials.refresh(google.auth.transport.requests.Request())
         return credentials
 
-
-
-    def get_default_token():
-        credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
-        credentials.refresh(google.auth.transport.requests.Request())
-        return credentials.token
-    
     creds = get_creds()
     print(creds.service_account_email)
     
-    token = get_default_token()
+    token = creds.token
     
     head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token)}
     print(head)
