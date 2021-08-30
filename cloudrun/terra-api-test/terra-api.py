@@ -35,10 +35,21 @@ def prepare_header():
     
     CREDENTIAL_SCOPES = ["https://www.googleapis.com/auth/cloud-platform"] 
 
+    def get_creds():
+        credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
+        credentials.refresh(requests.Request())
+        return credentials
+
+
+
     def get_default_token():
         credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
         credentials.refresh(google.auth.transport.requests.Request())
         return credentials.token
+    
+    creds = get_creds()
+    print(creds.service_account_email)
+    
     token = get_default_token()
     
     head = {'accept': '*/*',"Content-Type": "application/json", 'Authorization': 'Bearer {}'.format(token)}
@@ -78,7 +89,7 @@ def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace
 #    response = s.send(prepared)
 #    print(response)
 
-    response = requests.get(myUrl, headers=head)
+#    response = requests.get(myUrl, headers=head)
     print('terra api request submitted')
     return response
 
