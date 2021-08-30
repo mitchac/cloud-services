@@ -83,10 +83,10 @@ def get_workflow_config(workspaceNamespace, workspaceName, methodConfigNamespace
 #    response = s.send(prepared)
 #    print(response)
 
-#    response = requests.get(myUrl, headers=head)
+    response = requests.get(myUrl, headers=head)
     print('terra api request submitted')
-#    return response
-    return None
+    return response
+#    return None
 
 def set_workflow_config(workspaceNamespace, workspaceName, methodNamespace, methodName, methodVersion, methodConfigRootEntityType, methodConfigVersion):
 
