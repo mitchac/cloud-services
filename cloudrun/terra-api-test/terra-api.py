@@ -3,6 +3,7 @@ import requests
 import json
 import subprocess
 import google.auth
+import google.auth.transport.requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 def pretty_print_POST(req):
