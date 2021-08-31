@@ -34,7 +34,7 @@ def prepare_header():
     #token_val = data["access_token"]
     #print(token_val)
     
-    CREDENTIAL_SCOPES = ["https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloud-billing"] 
+    CREDENTIAL_SCOPES = ["https://www.googleapis.com/auth/userinfo.profile","https://www.googleapis.com/auth/userinfo.email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloud-billing"] 
 
     def get_creds():
         credentials, project_id = google.auth.default(scopes=CREDENTIAL_SCOPES)
